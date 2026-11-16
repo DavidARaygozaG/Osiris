@@ -1,0 +1,104 @@
+.body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ring { flex-shrink: 0; }
+.ringText {
+  fill: var(--color-base-content);
+  font-size: 18px;
+  font-weight: 800;
+  font-family: inherit;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lineRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.78rem;
+}
+.lineLbl { color: var(--color-neutral-content); }
+.lineVal { color: var(--color-base-content); font-weight: 700; }
+
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 99px;
+  padding: 0.25rem 0.6rem;
+  color: var(--color-neutral-content);
+  font-family: inherit;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.editBtn:hover { color: var(--color-primary); border-color: var(--color-primary); }
+
+.editActions { display: inline-flex; gap: 0.3rem; }
+.iconBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-base-content);
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconBtn:first-child { color: var(--color-primary); border-color: rgba(110,231,183,0.4); }
+.iconBtn:last-child  { color: var(--color-error); }
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.55rem;
+  color: var(--color-base-content);
+  font-size: 0.85rem;
+}
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  width: 100%;
+  min-width: 0;
+}
+
+.mensaje {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-base-content);
+  background: rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  line-height: 1.4;
+}

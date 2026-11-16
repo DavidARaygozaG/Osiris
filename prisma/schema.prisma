@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Inventario base de productos ───────────────────────────────────────────
+model Producto {
+  id       Int     @id @default(autoincrement())
+  nombre   String  @unique
+  precio   Float
+  activo   Boolean @default(true)
+  stock    Float   @default(0)
+
+  corteItems  CorteProducto[]
+  proveedores Proveedor[]     // proveedores que surten este producto
+}
+
+// ─── Corte diario ───────────────────────────────────────────────────────────
+model Corte {
+  id             Int      @id @default(autoincrement())
+  fecha          DateTime @unique @default(now())
+
+  // Producción tortilla
+  totalBultos    Int      @default(0)
+  ventaTortilla  Float    @default(0)
+
+  // Ventas productos
+  ventaProductos Float    @default(0)
+
+  // Gastos
+  totalGastos    Float    @default(0)
+
+  // Cuadre final
+  totalVentas    Float    @default(0)
+  deberiaHaber   Float    @default(0)
+  dineroEnCaja   Float    @default(0)
+  diferencia     Float    @default(0)
+  estado         String   @default("cuadro") // "cuadro" | "falto" | "sobro"
+
+  // Fecha como string para control de unicidad diaria
+  fechaDia       String?  @unique  // "YYYY-MM-DD" — nullable para compatibilidad con rows existentes
+
+  // Notas opcionales
+  notas          String?
+
+  // Relaciones
+  productos      CorteProducto[]
+  tandas         Tanda[]
+  proveedores    CorteProveedor[]
+  gastos         GastoExtra[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// ─── Productos vendidos en el corte ─────────────────────────────────────────
+model CorteProducto {
+  id         Int      @id @default(autoincrement())
+  corteId    Int
+  productoId Int
+  cantidad   Int      @default(0)
+  subtotal   Float    @default(0)
+
+  corte      Corte    @relation(fields: [corteId], references: [id], onDelete: Cascade)
+  producto   Producto @relation(fields: [productoId], references: [id])
+}
+
+// ─── Tandas de producción (harina/masa) ─────────────────────────────────────
+model Tanda {
+  id       Int   @id @default(autoincrement())
+  corteId  Int
+  harina   Float // fracción: 0.25, 0.5, 0.75, 1
+  masa     Float // fracción: 0.25, 0.5, 0.75, 1
+
+  corte    Corte @relation(fields: [corteId], references: [id], onDelete: Cascade)
+}
+
+// ─── Proveedores del día ─────────────────────────────────────────────────────
+model Proveedor {
+  id         Int      @id @default(autoincrement())
+  nombre     String   @unique
+  activo     Boolean  @default(true)
+  productoId Int?     // null = proveedor de harina | Int = producto que surte
+  parentId   Int?     // si tiene valor, se anida dentro de la tarjeta del padre
+
+  producto         Producto? @relation(fields: [productoId], references: [id])
+  corteProveedores CorteProveedor[]
+}
+
+model CorteProveedor {
+  id          Int      @id @default(autoincrement())
+  corteId     Int
+  proveedorId Int
+  paso        Boolean  @default(false)
+  dejo        Float    @default(0)
+  cobro       Float    @default(0)
+
+  corte       Corte     @relation(fields: [corteId], references: [id], onDelete: Cascade)
+  proveedor   Proveedor @relation(fields: [proveedorId], references: [id])
+}
+
+// ─── Inventario de harina ────────────────────────────────────────────────────
+model HarinaInventario {
+  id        Int      @id @default(autoincrement())
+  stock     Float    @default(0)  // en bultos
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Registro diario de ingreso de harina ────────────────────────────────────
+model IngresoHarina {
+  id       Int      @id @default(autoincrement())
+  bultos   Float
+  fechaDia String   @unique       // un ingreso por día
+  fecha    DateTime @default(now())
+}
+
+// ─── Configuración global ────────────────────────────────────────────────────
+model Config {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
+
+// ─── Gastos extra del día ────────────────────────────────────────────────────
+model GastoExtra {
+  id        Int    @id @default(autoincrement())
+  corteId   Int
+  concepto  String
+  monto     Float
+
+  corte     Corte  @relation(fields: [corteId], references: [id], onDelete: Cascade)
+}

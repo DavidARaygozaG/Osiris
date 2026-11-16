@@ -1,0 +1,283 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+@plugin "daisyui";
+
+/* ─── Tema personalizado ─────────────────────────────────────────────────────
+   Aprende: En Tailwind v4, los temas de DaisyUI se configuran via CSS,
+   no en tailwind.config.js. Mucho más flexible.
+──────────────────────────────────────────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: 'osiris';
+  default: true;
+  prefersdark: true;
+
+  /* Base */
+  --color-base-100: #0d0d0f;
+  --color-base-200: #131316;
+  --color-base-300: #1a1a20;
+  --color-base-content: #e8e8f0;
+
+  /* Primario: Emerald */
+  --color-primary: #6ee7b7;
+  --color-primary-content: #064e3b;
+
+  /* Secundario: Indigo */
+  --color-secondary: #818cf8;
+  --color-secondary-content: #1e1b4b;
+
+  /* Acento: Amber */
+  --color-accent: #fbbf24;
+  --color-accent-content: #451a03;
+
+  /* Neutral */
+  --color-neutral: #1e1e26;
+  --color-neutral-content: #a0a0b8;
+
+  /* Estados */
+  --color-success: #34d399;
+  --color-warning: #f59e0b;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+}
+
+/* ─── Design System: Glassmorphism ────────────────────────────────────────────
+   Aprende: CSS custom properties = variables reutilizables en toda la app.
+   Se definen aquí y se usan en cualquier componente.
+──────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Glass layers */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
+  --glass-blur: blur(8px);
+  --glass-blur-strong: blur(12px);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  /* Gradientes */
+  --gradient-primary: linear-gradient(135deg, rgba(110, 231, 183, 0.15), rgba(129, 140, 248, 0.15));
+  --gradient-surface: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --gradient-bg: url('/images/bg.jpg');
+
+  /* Liquid Glass glow */
+  --glow-primary: 0 0 20px rgba(110, 231, 183, 0.4);
+  --glow-secondary: 0 0 20px rgba(129, 140, 248, 0.3);
+  --glow-danger: 0 0 20px rgba(248, 113, 113, 0.3);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────────*/
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: url('/images/bg.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0%;
+  min-height: 100dvh;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── Clases Glass ───────────────────────────────────────────────────────────
+   Aprende: Estas son tus clases utilitarias custom. Las usarás así:
+   <div className="glass-card"> en cualquier componente React.
+──────────────────────────────────────────────────────────────────────────── */
+/* Utility unificada — para nuevos componentes usa esta. */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--glass-shadow-lg);
+  transform: translateY(-1px);
+}
+
+.glass-nav {
+  background: rgba(13, 13, 15, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.glass-surface {
+  background: var(--gradient-surface);
+  backdrop-filter: var(--glass-blur);
+
+  border: 1px solid var(--glass-border);
+  border-radius: 1.25rem;
+}
+
+.liquid-btn {
+  background: var(--gradient-primary);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border-strong);
+  transition: all 0.2s ease;
+}
+
+.liquid-btn:hover {
+  box-shadow: var(--glow-primary);
+  transform: translateY(-1px);
+}
+
+.hover\:bg-secondary\/80:hover {
+  background-color: #fff0;
+}
+
+/* ─── Scrollbar personalizada ────────────────────────────────────────────────*/
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border-strong);
+  border-radius: 99px;
+}
+
+.cajaInput:focus-within {
+  outline: 1px solid #6fe8b8;
+  border-width: 1px;
+  border-color: #6fe8b8; /* tienes que volver a forzarlo */
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}

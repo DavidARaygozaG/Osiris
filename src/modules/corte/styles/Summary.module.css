@@ -1,0 +1,80 @@
+/* -------------------------------------------------------------------------- */
+/*                                   SUMMARY                                  */
+/* -------------------------------------------------------------------------- */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.875rem;
+  backdrop-filter: blur(12px);
+}
+
+.rowLabel {
+  font-size: 0.85rem;
+  color: var(--color-neutral-content);
+}
+
+.rowValue {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-base-content);
+}
+
+.rowBold .rowLabel {
+  color: var(--color-base-content);
+  font-weight: 600;
+}
+.rowBold .rowValue {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+.rowBold {
+  background: rgba(110, 231, 183, 0.05);
+  border-color: rgba(110, 231, 183, 0.2);
+}
+
+.divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 0.25rem 0;
+}
+
+.estadoBadge {
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.coincidio {
+  background: rgba(110, 231, 183, 0.1);
+  border: 1px solid rgba(110, 231, 183, 0.3);
+  color: var(--color-primary);
+}
+
+.falto {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: var(--color-error);
+}
+
+.estadoSub {
+  font-size: 1.5rem;
+  font-weight: 400;
+  opacity: 0.8;
+}

@@ -1,0 +1,162 @@
+.calCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--glass-shadow);
+}
+
+.mesNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mesLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-base-content);
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+
+.navBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  color: var(--color-neutral-content);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.navBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.grid7 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.diaHeader {
+  text-align: center;
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-neutral-content);
+  padding: 0.2rem 0;
+}
+
+.diaBtn {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.6rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-neutral-content);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.diaBtn:hover {
+  background: var(--glass-bg-hover);
+  color: var(--color-base-content);
+}
+
+.diaRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.6rem;
+  border: 2px solid var(--color-primary);
+  box-shadow:
+    0 0 0 4px rgba(110, 231, 183, 0.18),
+    0 0 18px rgba(110, 231, 183, 0.35);
+  pointer-events: none;
+}
+
+.diaNum {
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.diaDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  position: relative;
+  z-index: 1;
+}
+
+.diaHoy {
+  border-color: rgba(110, 231, 183, 0.5);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.dia_coincidio {
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.35);
+  color: #34d399;
+}
+.dia_falto {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.35);
+  color: #f87171;
+}
+
+.leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+.leyItem {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+@media (min-width: 768px) {
+  .calCard {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+  .mesLabel {
+    font-size: 1.2rem;
+  }
+  .diaBtn {
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+  .diaHeader {
+    font-size: 0.65rem;
+    padding: 0.4rem 0;
+  }
+  .grid7 {
+    gap: 6px;
+  }
+}
