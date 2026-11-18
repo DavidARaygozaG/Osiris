@@ -1,153 +1,151 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { MdCheckCircle, MdLocalFireDepartment, MdInventory2 } from 'react-icons/md';
-import BottomNav from '@/components/navigation/BottomNav';
-import Calendario from '@/modules/historial/Calendario';
+import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { motion } from 'motion/react';
+import { PiCalendarBlankDuotone, PiCloudSlashDuotone } from 'react-icons/pi';
+import Page from '@/components/ui/Page';
+import Glass from '@/components/ui/Glass';
+import Sheet from '@/components/ui/Sheet';
+import EmptyState from '@/components/ui/EmptyState';
+import { money } from '@/lib/format';
+import { claveDia, useHistorialStats } from '@/hooks/useHistorialStats';
+import Calendario, { nombreMes } from '@/modules/historial/Calendario';
 import DetalleCorte from '@/modules/historial/DetalleCorte';
 import InsightsCard from '@/modules/historial/InsightsCard';
 import MetaMensual from '@/modules/historial/MetaMensual';
-import { useHistorialStats } from '@/hooks/useHistorialStats';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import styles from './Historial.module.css';
+import ShareCorte from '@/modules/historial/ShareCorte';
+
+// Entrada orquestada: los bloques aparecen uno tras otro, con blur como en el Inicio
+const lista = { show: { transition: { staggerChildren: 0.08 } } };
+const bloque = {
+  hidden: { opacity: 0, y: 18, filter: 'blur(6px)' },
+  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { type: 'spring', stiffness: 240, damping: 24 } },
+};
+
+const fechaDe = (key, opts) => {
+  const [y, m, d] = key.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-MX', opts);
+};
 
 export default function HistorialPage() {
   const hoy = new Date();
-  const [year,    setYear]    = useState(hoy.getFullYear());
-  const [month,   setMonth]   = useState(hoy.getMonth());
-  const [cortes,  setCortes]  = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [year, setYear] = useState(hoy.getFullYear());
+  const [month, setMonth] = useState(hoy.getMonth());
+  const [cortes, setCortes] = useState(null); // null = cargando
+  const [error, setError] = useState(false);
+  const [intento, setIntento] = useState(0);
+  const [elegido, setElegido] = useState(null); // { key, corte }
 
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-
+  // Cargar historial. `intento` permite reintentar sin recargar la página.
   useEffect(() => {
+    let vivo = true;
     fetch('/api/historial')
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(setCortes)
-      .catch(err => console.warn('historial fetch error:', err));
-  }, []);
+      .then(r => (r.ok ? r.json() : Promise.reject()))
+      .then(d => vivo && setCortes(d))
+      .catch(() => vivo && setError(true));
+    return () => {
+      vivo = false;
+    };
+  }, [intento]);
 
-  const corteMap = useMemo(() => {
-    const m = {};
-    cortes.forEach(c => {
-      const key = new Date(c.fecha).toISOString().slice(0, 10);
-      m[key] = c;
-    });
-    return m;
-  }, [cortes]);
-
-  const stats = useHistorialStats(cortes, { year, month });
-
-  const prevMes = () => {
-    setSelected(null);
-    if (month === 0) { setMonth(11); setYear(y => y - 1); } else setMonth(m => m - 1);
-  };
-  const nextMes = () => {
-    setSelected(null);
-    if (month === 11) { setMonth(0); setYear(y => y + 1); } else setMonth(m => m + 1);
+  const reintentar = () => {
+    setError(false);
+    setCortes(null);
+    setIntento(n => n + 1);
   };
 
-  const handleSelect = (dia, key, corte) => {
-    setSelected({ dia, key, corte });
+  const corteMap = useMemo(() => Object.fromEntries((cortes ?? []).map(c => [claveDia(c), c])), [cortes]);
+  const stats = useHistorialStats(cortes, year, month);
+
+  const esMesActual = year === hoy.getFullYear() && month === hoy.getMonth();
+  const cambiarMes = delta => {
+    const d = new Date(year, month + delta, 1);
+    setYear(d.getFullYear());
+    setMonth(d.getMonth());
   };
 
-  // Corte del día anterior cronológicamente (para trends)
-  const prevCorte = useMemo(() => {
-    if (!selected?.corte) return null;
-    const sorted = [...cortes].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-    const idx = sorted.findIndex(c => c.id === selected.corte.id);
-    return idx > 0 ? sorted[idx - 1] : null;
-  }, [selected, cortes]);
+  // Frase de resumen del mes
+  const resumen = stats.totalCortes
+    ? `En ${nombreMes(year, month)} hiciste ${stats.totalCortes} ${stats.totalCortes === 1 ? 'cuenta' : 'cuentas'} y vendiste ${money(stats.totalVentas)}. ` +
+      (stats.cuadraron === stats.totalCortes
+        ? 'Todas cuadraron.'
+        : `Cuadraron ${stats.cuadraron}${stats.faltaron ? `, faltó dinero en ${stats.faltaron}` : ''}${stats.sobraron ? `, sobró en ${stats.sobraron}` : ''}.`)
+    : null;
 
   return (
-    <>
-      <main className={styles.page}>
-        {/* ── Hero header ── */}
-        <motion.header
-          className={styles.hero}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div>
-            <h1 className={styles.heroTitle}>📋 Historial</h1>
-            <p className={styles.heroSub}>Análisis y registro de cortes</p>
-          </div>
-          <div className={styles.heroStats}>
-            <HeroStat icon={<MdInventory2 />} label="Cortes" value={stats.totalCortes} />
-            <HeroStat icon={<MdCheckCircle />} label="Coincidencia" value={`${stats.coincidencia.toFixed(0)}%`} accent="#34d399" />
-            <HeroStat icon={<MdLocalFireDepartment />} label="Racha" value={stats.rachaActual} accent="#fb923c" />
-          </div>
-        </motion.header>
+    <Page title="Días" subtitle="Toca un día para ver su cuenta">
+      {error ? (
+        <EmptyState
+          icon={PiCloudSlashDuotone}
+          title="No se pudieron cargar los días"
+          text="Parece que no hay internet. Revisa tu conexión y vuelve a intentar."
+          action={
+            <button type="button" onClick={reintentar} className="btn btn-big btn-liquid mt-2 px-8">
+              Intentar otra vez
+            </button>
+          }
+        />
+      ) : cortes === null ? (
+        <div className="flex flex-col gap-4" aria-busy="true" aria-label="Cargando días">
+          <div className="skeleton h-20 w-full rounded-2xl" />
+          <div className="skeleton h-44 w-full rounded-2xl" />
+          <div className="skeleton h-96 w-full rounded-2xl" />
+        </div>
+      ) : (
+        <motion.div className="flex flex-col gap-4" variants={lista} initial="hidden" animate="show">
+          <motion.div variants={bloque}>
+            <Glass variant="strong" className="p-5">
+              <p className="text-lg font-semibold leading-snug">
+                {resumen ?? `Todavía no hay cuentas en ${nombreMes(year, month)}.`}
+              </p>
+            </Glass>
+          </motion.div>
 
-        {/* ── Layout responsive ── */}
-        <div className={styles.layout}>
-          {/* Columna izquierda: Calendario + Insights + Meta */}
-          <div className={styles.colLeft}>
+          <motion.div variants={bloque}>
+            <MetaMensual totalVentas={stats.totalVentas} year={year} month={month} />
+          </motion.div>
+
+          <motion.div variants={bloque}>
             <Calendario
               year={year}
               month={month}
               corteMap={corteMap}
-              selectedKey={selected?.key}
-              onPrev={prevMes}
-              onNext={nextMes}
-              onSelect={handleSelect}
+              puedeAvanzar={!esMesActual}
+              onPrev={() => cambiarMes(-1)}
+              onNext={() => cambiarMes(1)}
+              onSelect={(key, corte) => setElegido({ key, corte })}
             />
-            <InsightsCard stats={stats} />
-            <MetaMensual stats={stats} year={year} month={month} />
-          </div>
+          </motion.div>
 
-          {/* Columna derecha: Detalle */}
-          <div className={styles.colRight}>
-            <AnimatePresence mode="wait">
-              {selected ? (
-                <DetalleCorte
-                  key={selected.key}
-                  selected={selected}
-                  year={year}
-                  month={month}
-                  prevCorte={prevCorte}
-                  onClose={() => setSelected(null)}
-                />
-              ) : (
-                isDesktop && (
-                  <motion.div
-                    key="empty"
-                    className={styles.emptyDesktop}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <span className={styles.emptyEmoji}>👆</span>
-                    <p>Selecciona un día del calendario</p>
-                    <span className={styles.emptyHint}>
-                      Los días con punto tienen corte registrado
-                    </span>
-                  </motion.div>
-                )
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </main>
-      <BottomNav />
-    </>
-  );
-}
+          {stats.totalCortes === 0 ? (
+            <motion.div variants={bloque}>
+              <EmptyState
+                icon={PiCalendarBlankDuotone}
+                title="Este mes no tiene cuentas"
+                text="Cuando cierres un día aparecerá aquí. Puedes ver otro mes con las flechas."
+                action={
+                  <Link href="/" className="btn btn-big btn-liquid mt-2 px-8">
+                    Ir al inicio
+                  </Link>
+                }
+              />
+            </motion.div>
+          ) : (
+            <motion.div variants={bloque}>
+              <InsightsCard stats={stats} />
+            </motion.div>
+          )}
+        </motion.div>
+      )}
 
-function HeroStat({ icon, label, value, accent }) {
-  return (
-    <motion.div
-      className={styles.heroStat}
-      whileHover={{ y: -2 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-    >
-      <span className={styles.heroStatIcon} style={{ color: accent || 'var(--color-primary)' }}>{icon}</span>
-      <div>
-        <span className={styles.heroStatVal}>{value}</span>
-        <span className={styles.heroStatLbl}>{label}</span>
-      </div>
-    </motion.div>
+      <Sheet
+        open={!!elegido}
+        onClose={() => setElegido(null)}
+        title={elegido ? fechaDe(elegido.key, { weekday: 'long', day: 'numeric', month: 'long' }) : ''}
+        footer={elegido && <ShareCorte corte={elegido.corte} fecha={fechaDe(elegido.key, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} />}>
+        {elegido && <DetalleCorte corte={elegido.corte} />}
+      </Sheet>
+    </Page>
   );
 }

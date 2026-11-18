@@ -1,22 +1,32 @@
-import { Carlito } from 'next/font/google';
-import '@mantine/core/styles.css';
+import { Bricolage_Grotesque, Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
-import { createTheme, MantineProvider } from '@mantine/core';
 import SwRegister from '@/components/SwRegister';
 import InstallPWA from '@/components/InstallPWA';
+import Aurora from '@/components/ui/Aurora';
+import LiquidDefs from '@/components/ui/LiquidDefs';
+import LiquidEffects from '@/components/ui/LiquidEffects';
 
-const inter = Carlito({
-  variable: '--font-inter',
-  weight: '400',
+// Display + cifras: Bricolage Grotesque (variable, con carácter).
+const display = Bricolage_Grotesque({
+  variable: '--font-display',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+// Texto: Hanken Grotesk (muy legible en pantallas pequeñas).
+const body = Hanken_Grotesk({
+  variable: '--font-body',
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata = {
-  title: 'Osiris · Control de Ventas',
-  description: 'Control diario de ventas para tortillería',
+  title: 'Osiris · Cuenta del día',
+  description: 'Cuenta diaria de la Tortillería Única | Eduardo’s',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'black-translucent',
+    statusBarStyle: 'default',
     title: 'Osiris',
   },
 };
@@ -24,34 +34,38 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  themeColor: '#22c55e',
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f6eedb' },
+    { media: '(prefers-color-scheme: dark)', color: '#272b29' },
+  ],
 };
 
-const theme = createTheme({
-  /** Put your mantine theme override here */
-});
+// Se ejecuta ANTES de pintar: elige el tema (guardado o el del teléfono) y activa la
+// refracción líquida solo en navegadores Chromium. Evita el parpadeo claro→oscuro.
+const temaInicial = `(function(){try{var t=localStorage.getItem('osiris-tema');var d=t?t==='oscuro':matchMedia('(prefers-color-scheme: dark)').matches;var h=document.documentElement;h.dataset.theme=d?'maiz-oscuro':'maiz';h.style.colorScheme=d?'dark':'light';if(navigator.userAgentData)h.classList.add('lq');}catch(e){}})();`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" data-theme="osiris" className={inter.variable}>
+    <html lang="es-MX" data-theme="maiz" suppressHydrationWarning className={`${display.variable} ${body.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.json" />
+        <script dangerouslySetInnerHTML={{ __html: temaInicial }} />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Osiris" />
-        <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="min-h-dvh flex flex-col antialiased">
-        <MantineProvider theme={theme} defaultColorScheme="dark">
-          {children}
-        </MantineProvider>
+      <body className="flex min-h-dvh flex-col antialiased">
+        <Aurora />
+        <LiquidDefs />
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-base-100 focus:px-4 focus:py-3">
+          Saltar al contenido
+        </a>
+        {children}
         <SwRegister />
         <InstallPWA />
+        <LiquidEffects />
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+import { esAdmin } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -10,6 +11,7 @@ export async function GET() {
 }
 
 export async function PUT(req) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   try {
     const { stock } = await req.json();
     const existing = await prisma.harinaInventario.findFirst();

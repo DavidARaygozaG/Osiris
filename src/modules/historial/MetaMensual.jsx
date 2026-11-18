@@ -1,162 +1,112 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, animate } from 'motion/react';
-import { MdFlag, MdEdit, MdCheck, MdClose } from 'react-icons/md';
-import { toast } from 'sonner';
-import Section from '@/components/cards/Section';
-import styles from './MetaMensual.module.css';
+import { PiTargetDuotone, PiPencilSimpleDuotone, PiWarningFill } from 'react-icons/pi';
+import Glass from '@/components/ui/Glass';
+import Sheet from '@/components/ui/Sheet';
+import AnimatedNumber from '@/components/ui/AnimatedNumber';
+import LiquidGauge from '@/components/ui/LiquidGauge';
+import { NumPad } from '@/components/ui/MoneyField';
+import { money } from '@/lib/format';
+import { useAdminStore } from '@/stores/useAdminStore';
 
-const fmt = n => `$${Number(n || 0).toLocaleString('es-MX')}`;
+const META_INICIAL = 50000;
+const pctTxt = v => `${Math.round(v)}%`; // estable: AnimatedNumber no reinicia
 
-export default function MetaMensual({ stats, year, month }) {
-  const { totalVentas } = stats;
-  const [meta, setMeta]       = useState(null);
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft]     = useState('');
+/**
+ * Meta del mes: medidor líquido (hoja protagonista de la pantalla) + frase clara.
+ * La meta vive en /api/admin/config (key: meta_mensual).
+ */
+export default function MetaMensual({ totalVentas, year, month }) {
+  const [meta, setMeta] = useState(null);
+  const esAdmin = useAdminStore(s => s.isAdmin);
+  const [editando, setEditando] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
+    let vivo = true;
     fetch('/api/admin/config')
-      .then(r => { if (!r.ok || r.headers.get('content-length') === '0') throw new Error('empty'); return r.text(); })
-      .then(txt => { if (!txt) throw new Error('empty'); return JSON.parse(txt); })
-      .then(cfg => setMeta(Number(cfg.meta_mensual || 50000)))
-      .catch(() => setMeta(50000));
+      .then(r => (r.ok ? r.json() : Promise.reject()))
+      .then(cfg => vivo && setMeta(Number(cfg.meta_mensual) || META_INICIAL))
+      .catch(() => vivo && setMeta(META_INICIAL));
+    return () => {
+      vivo = false; // evita setState si la vista ya se cerró
+    };
   }, []);
 
-  if (meta == null) return null;
-
-  const pct        = Math.min((totalVentas / meta) * 100, 100);
-  const hoy        = new Date();
-  const enMes      = hoy.getFullYear() === year && hoy.getMonth() === month;
-  const totalDias  = new Date(year, month + 1, 0).getDate();
-  const diaActual  = enMes ? hoy.getDate() : totalDias;
-  const promDiario = diaActual ? totalVentas / diaActual : 0;
-  const proyeccion = promDiario * totalDias;
-  const restante   = Math.max(meta - totalVentas, 0);
-  const diasRest   = Math.max(totalDias - diaActual, 1);
-  const necesario  = restante / diasRest;
-
-  const mensaje = pct >= 100
-    ? '🎉 ¡Meta alcanzada! Sigue así.'
-    : proyeccion >= meta
-      ? '🚀 ¡Vas adelantado! Proyección por encima de la meta.'
-      : enMes
-        ? `Necesitas ${fmt(necesario)} diarios para llegar.`
-        : `Cerraste el mes en ${pct.toFixed(0)}% de la meta.`;
-
-  async function guardar() {
-    const v = Number(draft);
-    if (!v || v <= 0) return toast.error('Meta inválida');
-    await fetch('/api/admin/config', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: 'meta_mensual', value: v }),
-    });
-    setMeta(v);
-    setEditing(false);
-    toast.success('Meta actualizada');
+  async function guardar(valor) {
+    if (!valor || valor <= 0) return setError('Escribe una meta mayor a cero.');
+    try {
+      const r = await fetch('/api/admin/config', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'meta_mensual', value: valor }),
+      });
+      if (!r.ok) throw new Error();
+      setMeta(valor);
+      setError('');
+      setEditando(false);
+    } catch {
+      setError('No se pudo guardar la meta. Revisa tu internet e intenta otra vez.');
+    }
   }
 
+  if (meta == null) return <div className="skeleton h-44 w-full rounded-2xl" aria-label="Cargando meta" />;
+
+  const pct = Math.min(Math.round((totalVentas / meta) * 100), 100);
+  const faltan = Math.max(meta - totalVentas, 0);
+  const hoy = new Date();
+  const enMes = hoy.getFullYear() === year && hoy.getMonth() === month;
+  const totalDias = new Date(year, month + 1, 0).getDate();
+  const diasQuedan = Math.max(totalDias - (enMes ? hoy.getDate() : totalDias), 1);
+
+  const frase =
+    faltan === 0
+      ? 'Ya llegaste a la meta de este mes.'
+      : enMes
+        ? `Para llegar, vende ${money(faltan / diasQuedan)} cada día que queda.`
+        : `Ese mes cerraste en ${pct}% de la meta.`;
+
   return (
-    <Section
-      delay={0.15}
-      title="Meta del mes"
-      icon={<MdFlag />}
-      action={
-        !editing ? (
-          <button className={styles.editBtn} onClick={() => { setDraft(String(meta)); setEditing(true); }}>
-            <MdEdit /> Editar
+    <Glass as="section" aria-label="Meta del mes" className="glass-liquid p-5">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="flex items-center gap-2 text-xl font-extrabold">
+          <PiTargetDuotone className="size-8 text-cafe drop-shadow-sm" aria-hidden /> Meta del mes
+        </h2>
+        {/* Solo el admin puede cambiar la meta (el servidor también lo exige) */}
+        {esAdmin && (
+          <button type="button" onClick={() => setEditando(true)} className="btn btn-ghost min-h-14 gap-2 px-3 text-base font-bold">
+            <PiPencilSimpleDuotone className="size-6 text-cafe" aria-hidden /> Cambiar
           </button>
-        ) : (
-          <div className={styles.editActions}>
-            <button className={styles.iconBtn} onClick={guardar} aria-label="Guardar"><MdCheck /></button>
-            <button className={styles.iconBtn} onClick={() => setEditing(false)} aria-label="Cancelar"><MdClose /></button>
-          </div>
-        )
-      }
-    >
-      <div className={styles.body}>
-        <ProgressRing pct={pct} />
-        <div className={styles.info}>
-          {editing ? (
-            <div className={styles.inputWrap}>
-              <span>$</span>
-              <input
-                type="number"
-                value={draft}
-                onChange={e => setDraft(e.target.value)}
-                className={styles.input}
-                autoFocus
-              />
-            </div>
-          ) : (
-            <div className={styles.lineRow}>
-              <span className={styles.lineLbl}>Meta</span>
-              <span className={styles.lineVal}>{fmt(meta)}</span>
-            </div>
-          )}
-          <div className={styles.lineRow}>
-            <span className={styles.lineLbl}>Vendido</span>
-            <span className={styles.lineVal} style={{ color: '#6ee7b7' }}>{fmt(totalVentas)}</span>
-          </div>
-          <div className={styles.lineRow}>
-            <span className={styles.lineLbl}>Proyección</span>
-            <span className={styles.lineVal}>{fmt(proyeccion)}</span>
-          </div>
+        )}
+      </div>
+
+      <div className="mt-3 flex items-center gap-4">
+        <LiquidGauge value={pct} size={104} label={`Meta del mes al ${pct} por ciento`} />
+        <div className="min-w-0 flex-1">
+          <p className="text-ink-soft">Llevas</p>
+          <p className="num text-4xl font-extrabold leading-tight">
+            <AnimatedNumber value={totalVentas} from={0} />
+          </p>
+          <p className="text-ink-soft">
+            <span className="num font-bold text-ink">
+              <AnimatedNumber value={pct} from={0} format={pctTxt} />
+            </span>{' '}
+            de {money(meta)}
+            {faltan > 0 && <span className="block text-sm">Te faltan {money(faltan)}</span>}
+          </p>
         </div>
       </div>
-      <p className={styles.mensaje}>{mensaje}</p>
-    </Section>
-  );
-}
+      <p className="mt-3 border-t border-ink/10 pt-3 text-ink-soft">{frase}</p>
 
-function ProgressRing({ pct, size = 88, stroke = 8 }) {
-  const r = (size - stroke) / 2;
-  const c = 2 * Math.PI * r;
-  const dash = useMotionValue(c);
-  const num  = useMotionValue(0);
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    const target = c - (c * pct) / 100;
-    const ctrlDash = animate(dash, target, { duration: 1.1, ease: 'easeOut' });
-    const ctrlNum  = animate(num, pct, { duration: 1.1, ease: 'easeOut',
-      onUpdate: v => setDisplay(Math.round(v)) });
-    return () => { ctrlDash.stop(); ctrlNum.stop(); };
-  }, [pct, c, dash, num]);
-
-  return (
-    <svg width={size} height={size} className={styles.ring}>
-      <circle
-        cx={size/2} cy={size/2} r={r}
-        fill="none"
-        stroke="rgba(255,255,255,0.08)"
-        strokeWidth={stroke}
-      />
-      <motion.circle
-        cx={size/2} cy={size/2} r={r}
-        fill="none"
-        stroke="url(#metaGrad)"
-        strokeWidth={stroke}
-        strokeLinecap="round"
-        strokeDasharray={c}
-        style={{ strokeDashoffset: dash }}
-        transform={`rotate(-90 ${size/2} ${size/2})`}
-      />
-      <defs>
-        <linearGradient id="metaGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stopColor="#6ee7b7" />
-          <stop offset="100%" stopColor="#818cf8" />
-        </linearGradient>
-      </defs>
-      <text
-        x="50%" y="50%"
-        dominantBaseline="middle"
-        textAnchor="middle"
-        className={styles.ringText}
-      >
-        {display}%
-      </text>
-    </svg>
+      <Sheet open={editando} onClose={() => setEditando(false)} title="Meta de ventas del mes">
+        {error && (
+          <p role="alert" className="tone-bad mb-3 flex items-center gap-2 font-semibold text-(--tone)">
+            <PiWarningFill className="size-5 shrink-0" aria-hidden /> {error}
+          </p>
+        )}
+        <NumPad initial={meta} confirmLabel="Guardar meta" onConfirm={guardar} />
+      </Sheet>
+    </Glass>
   );
 }

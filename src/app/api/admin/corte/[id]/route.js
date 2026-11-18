@@ -1,6 +1,8 @@
+import { esAdmin } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 
 export async function DELETE(req, { params }) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   const { id: idStr } = await params;
   const id = Number(idStr);
 

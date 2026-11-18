@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma';
+import { diaMX } from '@/lib/fecha';
 
 function hoy() {
-  return new Date().toISOString().slice(0, 10);
+  return diaMX(); // día de Ciudad de México
 }
 
 // GET — devuelve si ya hubo ingreso hoy + stock actual

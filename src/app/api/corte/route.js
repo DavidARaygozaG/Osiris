@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { diaMX, inicioDiaMX } from '@/lib/fecha';
 
 export async function POST(request) {
   const body = await request.json();
@@ -9,11 +10,18 @@ export async function POST(request) {
   } = body;
 
   // ── Regla: un solo corte por día ─────────────────────────────────────────
-  const fechaDia = new Date().toISOString().slice(0, 10);
-  const existe   = await prisma.corte.findFirst({ where: { fechaDia } });
+  // El "día" es el de Ciudad de México (no UTC). También se busca por la hora real de guardado
+  // para detectar cuentas viejas guardadas con el día UTC equivocado.
+  const fechaDia = diaMX();
+  const desde    = inicioDiaMX(fechaDia);
+  const hasta    = new Date(desde.getTime() + 24 * 60 * 60 * 1000);
+  const existe   = await prisma.corte.findFirst({
+    where: { OR: [{ fechaDia }, { fecha: { gte: desde, lt: hasta } }] },
+  });
   if (existe) return Response.json({ error: 'ya_existe' }, { status: 409 });
 
-  const estado = diferencia < 0 ? 'falto' : 'coincidio'; // >= 0 (cuadro o sobro) → coincidio
+  // Valores del schema: cuadro | falto | sobro (antes "sobró" se guardaba como "coincidio")
+  const estado = diferencia < 0 ? 'falto' : diferencia > 0 ? 'sobro' : 'cuadro';
 
   // ── Harina consumida (solo tanda.harina, NO masa) ────────────────────────
   const harinaBultos = (tandas ?? []).reduce((acc, t) => acc + (t.harina ?? 0), 0);

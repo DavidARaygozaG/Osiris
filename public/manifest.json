@@ -1,13 +1,13 @@
 {
-  "name": "Osiris · Control de Ventas",
+  "name": "Osiris · Cuenta del día",
   "short_name": "Osiris",
   "description": "Control diario de ventas para tortillería",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0d0d12",
-  "theme_color": "#22c55e",
+  "background_color": "#fbf3e1",
+  "theme_color": "#fbf3e1",
   "lang": "es-MX",
   "categories": ["business", "productivity"],
   "icons": [
@@ -29,8 +29,8 @@
       "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Historial",
-      "short_name": "Historial",
+      "name": "Días",
+      "short_name": "Días",
       "url": "/historial",
       "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
     }

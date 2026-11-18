@@ -1,3 +1,4 @@
+import { esAdmin } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 
 // GET — todos los activos (o todos si ?all=true para admin)
@@ -14,6 +15,7 @@ export async function GET(req) {
 
 // POST — crear nuevo producto (admin)
 export async function POST(req) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   const { nombre, precio } = await req.json();
   if (!nombre || !precio) {
     return Response.json({ error: 'nombre y precio requeridos' }, { status: 400 });

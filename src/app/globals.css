@@ -1,283 +1,672 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+}
 
-@custom-variant dark (&:is(.dark *));
-@plugin "daisyui";
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAÍZ LÍQUIDO v2 — amarillo + café + verde, claro y oscuro
+   · Café  = estructura (texto, dock, botones secundarios)
+   · Verde = acción y "cuadró" (botón principal, progreso)
+   · Amarillo = destello (acentos, selección, avisos). Nunca el color dominante.
+   Aprende: los colores viven en variables (--c-*). El tema claro/oscuro solo
+   cambia esas variables, por eso ningún componente necesita "dark:" por separado.
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ─── Tema personalizado ─────────────────────────────────────────────────────
-   Aprende: En Tailwind v4, los temas de DaisyUI se configuran via CSS,
-   no en tailwind.config.js. Mucho más flexible.
-──────────────────────────────────────────────────────────────────────────── */
+/* Temas daisyUI (btn, input, skeleton, progress… los usan solos) */
 @plugin "daisyui/theme" {
-  name: 'osiris';
+  name: 'maiz';
   default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: #fffaf0;
+  --color-base-200: #f6eedb;
+  --color-base-300: #eadcbc;
+  --color-base-content: #3a2616;
+  --color-primary: #2a8452;
+  --color-primary-content: #ffffff;
+  --color-secondary: #7a4e2d;
+  --color-secondary-content: #fff7ea;
+  --color-accent: #f2b518;
+  --color-accent-content: #3a2616;
+  --color-neutral: #4a2f1b;
+  --color-neutral-content: #f6eedb;
+  --color-info: #2f7fb8;
+  --color-info-content: #f2faff;
+  --color-success: #1f7a47;
+  --color-success-content: #f2fff7;
+  --color-warning: #b8860b;
+  --color-warning-content: #fff9eb;
+  --color-error: #c8321a;
+  --color-error-content: #fff4f1;
+  --radius-selector: 1rem;
+  --radius-field: 0.875rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+@plugin "daisyui/theme" {
+  name: 'maiz-oscuro';
+  default: false;
   prefersdark: true;
-
-  /* Base */
-  --color-base-100: #0d0d0f;
-  --color-base-200: #131316;
-  --color-base-300: #1a1a20;
-  --color-base-content: #e8e8f0;
-
-  /* Primario: Emerald */
-  --color-primary: #6ee7b7;
-  --color-primary-content: #064e3b;
-
-  /* Secundario: Indigo */
-  --color-secondary: #818cf8;
-  --color-secondary-content: #1e1b4b;
-
-  /* Acento: Amber */
-  --color-accent: #fbbf24;
-  --color-accent-content: #451a03;
-
-  /* Neutral */
-  --color-neutral: #1e1e26;
-  --color-neutral-content: #a0a0b8;
-
-  /* Estados */
-  --color-success: #34d399;
-  --color-warning: #f59e0b;
-  --color-error: #f87171;
-  --color-info: #60a5fa;
+  color-scheme: dark;
+  --color-base-100: #323634; /* grafito verdoso, no negro */
+  --color-base-200: #2a2e2c;
+  --color-base-300: #3b403d;
+  --color-base-content: #f4ecdc;
+  --color-primary: #4cc287;
+  --color-primary-content: #0f2a1b;
+  --color-secondary: #c99a6e;
+  --color-secondary-content: #2a1c10;
+  --color-accent: #f5c443;
+  --color-accent-content: #2a1f14;
+  --color-neutral: #403a34;
+  --color-neutral-content: #f4ecdc;
+  --color-info: #6fb7e8;
+  --color-info-content: #0d2233;
+  --color-success: #4cc287;
+  --color-success-content: #0f2a1b;
+  --color-warning: #f5c443;
+  --color-warning-content: #2a1f14;
+  --color-error: #ff7a63;
+  --color-error-content: #3a0f08;
+  --radius-selector: 1rem;
+  --radius-field: 0.875rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
-/* ─── Design System: Glassmorphism ────────────────────────────────────────────
-   Aprende: CSS custom properties = variables reutilizables en toda la app.
-   Se definen aquí y se usan en cualquier componente.
-──────────────────────────────────────────────────────────────────────────── */
-:root {
-  /* Glass layers */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-bg-hover: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-strong: rgba(255, 255, 255, 0.15);
-  --glass-blur: blur(8px);
-  --glass-blur-strong: blur(12px);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --glass-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+/* ─── Variables semánticas por tema ─────────────────────────────────────────── */
+:root,
+[data-theme='maiz'] {
+  --c-ground: #f6eedb;
+  --c-ink: #3a2616; /* café de nixtamal */
+  --c-ink-soft: #6b5440;
+  --c-cafe: #7a4e2d;
+  --c-cafe-deep: #4a2f1b;
+  --c-nopal: #2a8452;
+  --c-nopal-deep: #1b6340;
+  --c-nopal-light: #7bd29c;
+  --c-nopal-text: #16703c;
+  --c-maiz: #f2b518;
+  --c-maiz-deep: #7d5200;
+  --c-chile: #c8321a;
+  --on-nopal: #ffffff;
+  --on-cafe: #fff3e0;
+  --nopal-rgb: 42 132 82;
+  --maiz-rgb: 242 181 24;
+  --chile-rgb: 200 50 26;
+  --cafe-rgb: 122 78 45;
 
-  /* Gradientes */
-  --gradient-primary: linear-gradient(135deg, rgba(110, 231, 183, 0.15), rgba(129, 140, 248, 0.15));
-  --gradient-surface: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
-  --gradient-bg: url('/images/bg.jpg');
+  --glass-rgb: 255 255 255;
+  --ga1: 0.66;
+  --ga2: 0.36;
+  --ga-strong1: 0.84;
+  --ga-strong2: 0.62;
+  --edge: rgb(255 255 255 / 0.95);
+  --rim: rgb(42 132 82 / 0.5);
+  --shadow-rgb: 96 60 20;
+  --field: rgb(255 255 255 / 0.72);
+  --scrim: rgb(40 26 12 / 0.42);
 
-  /* Liquid Glass glow */
-  --glow-primary: 0 0 20px rgba(110, 231, 183, 0.4);
-  --glow-secondary: 0 0 20px rgba(129, 140, 248, 0.3);
-  --glow-danger: 0 0 20px rgba(248, 113, 113, 0.3);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --aur-1: rgb(42 132 82 / 0.5); /* verde */
+  --aur-2: rgb(242 181 24 / 0.55); /* maíz */
+  --aur-3: rgb(122 78 45 / 0.38); /* café */
+  --aur-4: rgb(123 210 156 / 0.4); /* menta */
+}
+[data-theme='maiz-oscuro'] {
+  --c-ground: #272b29;
+  --c-ink: #f4ecdc;
+  --c-ink-soft: #c4b8a2;
+  --c-cafe: #c99a6e;
+  --c-cafe-deep: #8a5a36;
+  --c-nopal: #4cc287;
+  --c-nopal-deep: #2e9462;
+  --c-nopal-light: #8be3b0;
+  --c-nopal-text: #7fe0aa;
+  --c-maiz: #f5c443;
+  --c-maiz-deep: #f5c443;
+  --c-chile: #ff8a73;
+  --on-nopal: #0f2a1b;
+  --on-cafe: #fff3e0;
+  --nopal-rgb: 76 194 135;
+  --maiz-rgb: 245 196 67;
+  --chile-rgb: 255 138 115;
+  --cafe-rgb: 201 154 110;
+
+  --glass-rgb: 255 255 255;
+  --ga1: 0.14;
+  --ga2: 0.06;
+  --ga-strong1: 0.2;
+  --ga-strong2: 0.11;
+  --edge: rgb(255 255 255 / 0.28);
+  --rim: rgb(139 227 176 / 0.45);
+  --shadow-rgb: 6 10 8;
+  --field: rgb(255 255 255 / 0.1);
+  --scrim: rgb(10 12 11 / 0.55);
+
+  --aur-1: rgb(46 148 98 / 0.55);
+  --aur-2: rgb(196 140 24 / 0.42);
+  --aur-3: rgb(138 90 54 / 0.5);
+  --aur-4: rgb(60 110 120 / 0.38);
 }
 
-/* ─── Base ───────────────────────────────────────────────────────────────────*/
+/* Utilidades de Tailwind apuntando a las variables (así cambian con el tema) */
+@theme inline {
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-masa: var(--c-ground);
+  --color-cafe: var(--c-cafe);
+  --color-cafe-deep: var(--c-cafe-deep);
+  --color-nopal: var(--c-nopal);
+  --color-nopal-deep: var(--c-nopal-deep);
+  --color-nopal-light: var(--c-nopal-light);
+  --color-maiz: var(--c-maiz);
+  --color-maiz-deep: var(--c-maiz-deep);
+  --color-chile: var(--c-chile);
+}
+@theme {
+  --font-display: var(--font-display), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --radius-sheet: 1.75rem;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+  /* El fondo vive en <html>: así la aurora (z-index negativo) se ve por encima de él
+     y por debajo del contenido. Si el fondo estuviera en <body> la taparía. */
+  background-color: var(--c-ground);
+  transition: background-color 400ms var(--ease-out-expo);
+}
+body {
+  min-height: 100dvh;
+  background: transparent;
+  color: var(--c-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+  transition: color 300ms;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+p {
+  text-wrap: pretty;
+}
+.num,
+.tabular {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+.bg-field {
+  background: var(--field);
 }
 
-body {
-  background: url('/images/bg.jpg');
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 0%;
-  min-height: 100dvh;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-body::before {
-  content: '';
+/* ═══ AURORA: la luz de fondo que el cristal refracta (se mueve despacio) ═══ */
+.aurora {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--c-ground);
+  transition: background-color 400ms;
+}
+.aurora i {
+  position: absolute;
+  width: 95vmax;
+  height: 95vmax;
+  border-radius: 50%;
+  will-change: transform;
+  animation: drift 28s ease-in-out infinite alternate;
+}
+/* Gradientes radiales ya "borrosos": mucho más baratos que filter: blur */
+.aurora i:nth-child(1) {
+  top: -38vmax;
+  left: -30vmax;
+  background: radial-gradient(circle, var(--aur-1) 0%, transparent 62%);
+}
+.aurora i:nth-child(2) {
+  top: -10vmax;
+  right: -52vmax;
+  background: radial-gradient(circle, var(--aur-2) 0%, transparent 60%);
+  animation-duration: 34s;
+  animation-delay: -9s;
+}
+.aurora i:nth-child(3) {
+  bottom: -52vmax;
+  left: -26vmax;
+  background: radial-gradient(circle, var(--aur-3) 0%, transparent 62%);
+  animation-duration: 40s;
+  animation-delay: -16s;
+}
+.aurora i:nth-child(4) {
+  bottom: -34vmax;
+  right: -44vmax;
+  width: 75vmax;
+  height: 75vmax;
+  background: radial-gradient(circle, var(--aur-4) 0%, transparent 62%);
+  animation-duration: 31s;
+  animation-delay: -4s;
+}
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(7vmax, 9vmax, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-6vmax, 4vmax, 0) scale(0.94);
+  }
+}
+
+/* ═══ CRISTAL LÍQUIDO ═══════════════════════════════════════════════════════
+   .glass        tarjeta/hoja estándar (con blur)
+   .glass-row    fila de lista larga: mismo look SIN backdrop-filter (rinde mejor)
+   .glass-strong más opaca (mucho texto)
+   .glass-sheet  hoja inferior · .glass-dock barra flotante
+   Capas: relleno translúcido → borde "rim" iridiscente (::before) → brillo
+   especular que sigue al dedo y barre el cristal (::after).                    */
+.glass,
+.glass-row,
+.glass-sheet,
+.glass-dock {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(160deg, rgb(var(--glass-rgb) / var(--ga1)), rgb(var(--glass-rgb) / var(--ga2)));
+  box-shadow:
+    inset 0 1px 0 var(--edge),
+    0 14px 34px -16px rgb(var(--shadow-rgb) / 0.42),
+    0 2px 8px -3px rgb(var(--shadow-rgb) / 0.16);
+}
+.glass,
+.glass-dock {
+  border-radius: 1rem;
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+}
+.glass-row {
+  border-radius: 1rem;
+}
+.glass-strong {
+  background: linear-gradient(160deg, rgb(var(--glass-rgb) / var(--ga-strong1)), rgb(var(--glass-rgb) / var(--ga-strong2)));
+}
+.glass-sheet {
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: linear-gradient(180deg, rgb(var(--glass-rgb) / var(--ga-strong1)), rgb(var(--glass-rgb) / var(--ga-strong2)));
+  -webkit-backdrop-filter: blur(30px) saturate(1.9);
+  backdrop-filter: blur(30px) saturate(1.9);
+  box-shadow:
+    inset 0 1px 0 var(--edge),
+    0 -24px 60px -20px rgb(var(--shadow-rgb) / 0.5);
+}
+.glass-dock {
+  border-radius: 1.6rem;
+  box-shadow:
+    inset 0 1px 0 var(--edge),
+    0 22px 44px -16px rgb(var(--shadow-rgb) / 0.55),
+    0 2px 8px -3px rgb(var(--shadow-rgb) / 0.2);
+}
+/* Rim: borde de 1px con degradado (luz blanca arriba-izq, verde líquido abajo-der) */
+.glass::before,
+.glass-row::before,
+.glass-sheet::before,
+.glass-dock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(140deg, var(--edge), transparent 38%, var(--rim) 78%, var(--edge));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0.9;
+}
+/* Brillo especular: sigue al dedo (--sx/--sy) y deja un barrido lento */
+.glass::after,
+.glass-sheet::after,
+.glass-dock::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(220px 160px at var(--sx, 18%) var(--sy, -10%), rgb(255 255 255 / 0.55), transparent 70%),
+    linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.28) 50%, transparent 62%) 0 0 / 260% 100% no-repeat;
+  opacity: 0.55;
+  animation: sheen 9s var(--ease-out-expo) infinite;
+}
+[data-theme='maiz-oscuro'] .glass::after,
+[data-theme='maiz-oscuro'] .glass-sheet::after,
+[data-theme='maiz-oscuro'] .glass-dock::after {
+  opacity: 0.32;
+}
+@keyframes sheen {
+  0%,
+  62% {
+    background-position: 0 0, 130% 0;
+  }
+  100% {
+    background-position: 0 0, -40% 0;
+  }
+}
+
+/* Refracción real (Chrome/Edge/Android): un filtro SVG deforma lo que hay detrás.
+   Safari/Firefox usan el blur normal de arriba. La clase .lq la pone el script del <head>. */
+.lq .glass-liquid,
+.lq .glass-dock,
+.lq .glass-sheet {
+  -webkit-backdrop-filter: url(#liquid) blur(14px) saturate(1.9);
+  backdrop-filter: url(#liquid) blur(14px) saturate(1.9);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass-dock {
+    background: var(--c-ground);
+  }
+  .glass-sheet {
+    background: var(--c-ground);
+  }
+}
+
+/* ═══ BOTONES ═══════════════════════════════════════════════════════════════ */
+.btn-big {
+  min-height: 3.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  border-radius: 1rem;
+}
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 220ms var(--ease-out-expo),
+    box-shadow 260ms var(--ease-out-expo),
+    filter 200ms;
+}
+/* "Squish": al presionar la gota se aplasta y regresa (transform barato) */
+.btn:active:not(:disabled) {
+  transform: scale(1.025, 0.94);
+  transition-duration: 90ms;
+}
+/* Onda líquida que nace donde toca el dedo (la dispara LiquidEffects) */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), rgb(255 255 255 / 0.55) 0, rgb(255 255 255 / 0.18) 22%, transparent 46%);
+  opacity: 0;
+  transform: scale(0.4);
+}
+.btn.rip::before {
+  animation: rip 650ms var(--ease-out-expo);
+}
+@keyframes rip {
+  0% {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+/* VERDE: acción principal */
+.btn-liquid {
+  color: var(--on-nopal);
+  border: 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--c-nopal) 70%, white) 0%, var(--c-nopal) 48%, var(--c-nopal-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -10px 18px -8px rgb(0 0 0 / 0.25),
+    0 16px 28px -14px rgb(var(--nopal-rgb) / 0.9);
+}
+/* brillo suave en la mitad superior (degradado continuo, sin formas) */
+.btn-liquid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0) 52%);
   pointer-events: none;
 }
-
-/* ─── Clases Glass ───────────────────────────────────────────────────────────
-   Aprende: Estas son tus clases utilitarias custom. Las usarás así:
-   <div className="glass-card"> en cualquier componente React.
-──────────────────────────────────────────────────────────────────────────── */
-/* Utility unificada — para nuevos componentes usa esta. */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-  border-radius: 1rem;
+.btn-liquid:hover:not(:disabled) {
+  filter: saturate(1.1) brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    inset 0 -10px 18px -8px rgb(0 0 0 / 0.25),
+    0 20px 32px -14px rgb(var(--nopal-rgb) / 1);
+}
+[data-theme='maiz-oscuro'] .btn-liquid {
+  background: linear-gradient(180deg, var(--c-nopal-light) 0%, var(--c-nopal) 50%, var(--c-nopal-deep) 100%);
 }
 
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: 1rem;
-  transition: all 0.2s ease;
+/* CAFÉ: acción secundaria de peso */
+.btn-cafe {
+  color: var(--on-cafe);
+  border: 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--c-cafe) 75%, white) 0%, var(--c-cafe) 50%, var(--c-cafe-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.4),
+    inset 0 -10px 16px -8px rgb(0 0 0 / 0.3),
+    0 14px 24px -14px rgb(var(--cafe-rgb) / 0.9);
+}
+[data-theme='maiz-oscuro'] .btn-cafe {
+  color: #2a1c10;
+  background: linear-gradient(180deg, #e0b88f 0%, #c99a6e 50%, #a8774c 100%);
 }
 
-.glass-card:hover {
-  background: var(--glass-bg-hover);
-  border-color: var(--glass-border-strong);
-  box-shadow: var(--glass-shadow-lg);
-  transform: translateY(-1px);
+/* AMARILLO: destello (úsalo poco: seleccionados, "+" y acentos) */
+.btn-maiz {
+  color: #3a2616;
+  border: 0;
+  background: linear-gradient(180deg, #ffd96a, var(--c-maiz));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 10px 20px -10px rgb(var(--maiz-rgb) / 0.8);
 }
 
-.glass-nav {
-  background: rgba(13, 13, 15, 0.8);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--glass-border);
+/* Cristal pulsable (secundario neutro) */
+.btn-glass {
+  border: 0;
+  color: var(--c-ink);
+  background: linear-gradient(160deg, rgb(var(--glass-rgb) / var(--ga1)), rgb(var(--glass-rgb) / var(--ga2)));
+  box-shadow: inset 0 1px 0 var(--edge), 0 10px 22px -14px rgb(var(--shadow-rgb) / 0.5);
 }
 
-.glass-surface {
-  background: var(--gradient-surface);
-  backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-  border-radius: 1.25rem;
+/* ═══ ICONO / EMOJI SUELTO ═══════════════════════════════════════════════════
+   Decisión de diseño: los iconos NO van dentro de cuadros ni círculos. .perla solo
+   alinea y da una sombra suave; el emoji o el icono se ve "flotando" sobre el cristal. */
+.perla {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  line-height: 1;
+  background: none;
+  box-shadow: none;
+}
+.perla > span,
+.perla > svg {
+  filter: drop-shadow(0 3px 4px rgb(var(--shadow-rgb) / 0.32));
+  transition: transform 300ms var(--ease-out-expo);
+}
+*:active > .perla > span,
+*:active > .perla > svg,
+.perla:hover > span {
+  transform: scale(1.14) rotate(-6deg);
 }
 
-.liquid-btn {
-  background: var(--gradient-primary);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border-strong);
-  transition: all 0.2s ease;
+/* Botones de solo icono (btn-circle): sin fondo ni cristal, solo el icono con área táctil */
+.btn.btn-circle:not(.btn-liquid):not(.btn-cafe):not(.btn-maiz) {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+.btn.btn-circle.glass::before,
+.btn.btn-circle.glass::after {
+  display: none;
+}
+.btn.btn-circle:not(.btn-liquid):not(.btn-cafe):not(.btn-maiz):hover {
+  background: rgb(var(--glass-rgb) / 0.28);
 }
 
-.liquid-btn:hover {
-  box-shadow: var(--glow-primary);
-  transform: translateY(-1px);
+/* ═══ Estados: nunca solo color (siempre icono + palabra) ═══════════════════ */
+.tone-ok {
+  --tone: var(--c-nopal-text);
+  --tone-bg: rgb(var(--nopal-rgb) / 0.16);
+}
+.tone-bad {
+  --tone: var(--c-chile);
+  --tone-bg: rgb(var(--chile-rgb) / 0.14);
+}
+.tone-warn {
+  --tone: var(--c-maiz-deep);
+  --tone-bg: rgb(var(--maiz-rgb) / 0.22);
 }
 
-.hover\:bg-secondary\/80:hover {
-  background-color: #fff0;
+/* ═══ Micro-animaciones reutilizables ═══════════════════════════════════════ */
+@keyframes wave {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.wave-a {
+  animation: wave 7s linear infinite;
+}
+.wave-b {
+  animation: wave 11s linear infinite reverse;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.float {
+  animation: float 4.5s ease-in-out infinite;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.check-draw {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw 520ms 120ms var(--ease-out-expo) forwards;
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--nopal-rgb) / 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgb(var(--nopal-rgb) / 0);
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 1.8s var(--ease-out-expo) infinite;
+}
+/* Esqueleto "líquido": brillo que cruza */
+.skeleton {
+  background-image: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+  background-size: 250% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -150% 0;
+  }
 }
 
-/* ─── Scrollbar personalizada ────────────────────────────────────────────────*/
+/* ─── Superficies del navegador, tematizadas ───────────────────────────────── */
+::selection {
+  background: rgb(var(--maiz-rgb) / 0.5);
+  color: var(--c-ink);
+}
+input,
+textarea {
+  caret-color: var(--c-chile);
+}
+:focus-visible {
+  outline: 3px solid var(--c-nopal);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+[tabindex='-1']:focus-visible {
+  outline: none;
+}
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--cafe-rgb) / 0.4);
+  border-radius: 99px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
-  background: var(--glass-border-strong);
-  border-radius: 99px;
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
 }
 
-.cajaInput:focus-within {
-  outline: 1px solid #6fe8b8;
-  border-width: 1px;
-  border-color: #6fe8b8; /* tienes que volver a forzarlo */
+/* Transición suave al cambiar de tema (View Transitions) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ease-out-expo);
 }
 
-@theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

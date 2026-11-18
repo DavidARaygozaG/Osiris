@@ -1,6 +1,8 @@
+import { esAdmin } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 
 export async function PUT(req, { params }) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   const { id: idStr } = await params;
   const id = Number(idStr);
   const { nombre, precio, stock, activo } = await req.json();
@@ -16,6 +18,7 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   const { id: idStr } = await params;
   const id = Number(idStr);
   await prisma.producto.delete({ where: { id } });

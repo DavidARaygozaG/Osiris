@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T12:00:00Z",
+  "title": "Design System: Osiris · Cuenta del día",
+  "extensions": {
+    "colorMeta": {
+      "ground": { "role": "neutral", "displayName": "Masa", "canonical": "#f6eedb", "tonalRamp": ["#5c5238", "#8a7d57", "#b5a679", "#d6c89d", "#eadfbe", "#f1e6c9", "#f6eedb", "#fffaf0"] },
+      "masa-clara": { "role": "neutral", "displayName": "Masa Clara", "canonical": "#fffaf0", "tonalRamp": ["#5c5238", "#8a7d57", "#b5a679", "#d6c89d", "#eadfbe", "#f6edd6", "#fbf3e1", "#fffaf0"] },
+      "masa-dorada": { "role": "neutral", "displayName": "Masa Dorada", "canonical": "#eadcbc", "tonalRamp": ["#4d4228", "#756740", "#9d8d5d", "#c0af7f", "#dccb9f", "#eadcbc", "#f3e8cf", "#fbf4e3"] },
+      "ink": { "role": "secondary", "displayName": "Café de Nixtamal", "canonical": "#3a2616", "tonalRamp": ["#140c06", "#24160c", "#3a2616", "#58402b", "#6b5440", "#968068", "#c4b39d", "#e8dece"] },
+      "ink-soft": { "role": "secondary", "displayName": "Café Suave", "canonical": "#6b5440", "tonalRamp": ["#1f1810", "#34281c", "#4c3b2a", "#5c4735", "#6b5440", "#8f7a63", "#b8a891", "#ddd2c0"] },
+      "cafe": { "role": "secondary", "displayName": "Café Estructura", "canonical": "#7a4e2d", "tonalRamp": ["#2a1a0e", "#432b18", "#5c3a21", "#6b4427", "#7a4e2d", "#a07252", "#c9a68b", "#ecd9c8"] },
+      "cafe-deep": { "role": "secondary", "displayName": "Café Profundo", "canonical": "#4a2f1b", "tonalRamp": ["#1a0f08", "#2a1b0f", "#3a2515", "#432a18", "#4a2f1b", "#74533a", "#a3866f", "#d6c6b8"] },
+      "nopal": { "role": "primary", "displayName": "Nopal", "canonical": "#2a8452", "tonalRamp": ["#0b2f1b", "#124a2c", "#1b6340", "#237549", "#2a8452", "#5fa883", "#9bcab3", "#d4eadf"] },
+      "nopal-deep": { "role": "primary", "displayName": "Nopal Profundo", "canonical": "#1b6340", "tonalRamp": ["#082417", "#0e3a25", "#144d31", "#175939", "#1b6340", "#4b8a6a", "#8ab8a0", "#cbe3d6"] },
+      "nopal-light": { "role": "primary", "displayName": "Menta Nopal", "canonical": "#7bd29c", "tonalRamp": ["#1d4a30", "#2f7149", "#44965f", "#5db97b", "#7bd29c", "#9cdeb5", "#bfeacf", "#e3f6ea"] },
+      "nopal-text": { "role": "primary", "displayName": "Nopal de Texto", "canonical": "#16703c", "tonalRamp": ["#06281a", "#0c3f26", "#115531", "#13632f", "#16703c", "#4a9368", "#8ab9a0", "#cce2d6"] },
+      "maiz": { "role": "tertiary", "displayName": "Maíz", "canonical": "#f2b518", "tonalRamp": ["#3d2d00", "#6b4f00", "#9a7200", "#c99500", "#f2b518", "#ffd96a", "#ffe8a3", "#fff4d1"] },
+      "maiz-deep": { "role": "tertiary", "displayName": "Maíz Profundo", "canonical": "#7d5200", "tonalRamp": ["#2e1f00", "#4a3000", "#633f00", "#704900", "#7d5200", "#a8801f", "#d0b062", "#eedfb4"] },
+      "chile": { "role": "secondary", "displayName": "Chile Guajillo", "canonical": "#c8321a", "tonalRamp": ["#3a0f07", "#611a0d", "#8a2513", "#a82c17", "#c8321a", "#e0603f", "#ee9a82", "#f9d4ca"] },
+      "info": { "role": "neutral", "displayName": "Azul de Aviso", "canonical": "#2f7fb8", "tonalRamp": ["#0e2a3f", "#174463", "#215f8a", "#2a70a4", "#2f7fb8", "#5f9fcb", "#98c0dd", "#d2e4f0"] },
+      "warning": { "role": "neutral", "displayName": "Ámbar de Alerta", "canonical": "#b8860b", "tonalRamp": ["#33230a", "#5a400a", "#7f5d0a", "#9d730b", "#b8860b", "#d1a43f", "#e5c680", "#f4e5bd"] },
+      "grafito": { "role": "neutral", "displayName": "Grafito Verdoso", "canonical": "#272b29", "tonalRamp": ["#101311", "#1a1d1c", "#202422", "#272b29", "#323634", "#3b403d", "#5a605c", "#8a908c"] },
+      "grafito-claro": { "role": "neutral", "displayName": "Grafito Claro", "canonical": "#323634", "tonalRamp": ["#141715", "#1f2321", "#2a2e2c", "#2e3230", "#323634", "#3b403d", "#5d635f", "#8d938f"] },
+      "grafito-alto": { "role": "neutral", "displayName": "Grafito Alto", "canonical": "#3b403d", "tonalRamp": ["#1a1d1b", "#262a28", "#323634", "#383c3a", "#3b403d", "#555b57", "#7c827e", "#adb2ae"] },
+      "crema-oscuro": { "role": "neutral", "displayName": "Crema sobre Grafito", "canonical": "#f4ecdc", "tonalRamp": ["#5c5238", "#8a7d57", "#b5a679", "#d6c89d", "#e6dbc0", "#efe5cf", "#f4ecdc", "#faf6ec"] },
+      "nopal-oscuro": { "role": "primary", "displayName": "Nopal Luminoso", "canonical": "#4cc287", "tonalRamp": ["#0f2a1b", "#1c4d33", "#2e7a54", "#3ba06e", "#4cc287", "#7fe0aa", "#a9ecc6", "#d6f6e4"] },
+      "cafe-oscuro": { "role": "secondary", "displayName": "Café Claro", "canonical": "#c99a6e", "tonalRamp": ["#2a1c10", "#5a3b22", "#8a5a36", "#a87648", "#c99a6e", "#dbb690", "#e8cfb4", "#f4e8da"] },
+      "maiz-oscuro": { "role": "tertiary", "displayName": "Maíz Luminoso", "canonical": "#f5c443", "tonalRamp": ["#3d2d00", "#6b4f00", "#9a7200", "#c99a1c", "#f5c443", "#ffd96a", "#ffe8a3", "#fff4d1"] },
+      "chile-oscuro": { "role": "secondary", "displayName": "Chile Claro", "canonical": "#ff8a73", "tonalRamp": ["#3a0f08", "#6b2214", "#a3361f", "#d4553b", "#ff8a73", "#ffa896", "#ffc7bb", "#ffe4de"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Título de página (h1) en Bricolage Grotesque 800." },
+      "headline": { "displayName": "Headline", "purpose": "Título de hoja inferior (h2)." },
+      "figure": { "displayName": "Cifra", "purpose": "Dinero y cantidades, siempre tabulares (clase .num); las que cambian ruedan con AnimatedNumber." },
+      "title": { "displayName": "Title", "purpose": "Etiquetas de campo y rótulos fuertes en Hanken 600." },
+      "body": { "displayName": "Body", "purpose": "Texto corrido a 17px." },
+      "label": { "displayName": "Label", "purpose": "Pistas, rótulos del dock y estados a 14px." },
+      "button": { "displayName": "Button", "purpose": "Botones grandes (.btn-big)." }
+    },
+    "shadows": [
+      { "name": "glass", "value": "inset 0 1px 0 var(--edge), 0 14px 34px -16px rgb(var(--shadow-rgb) / 0.42), 0 2px 8px -3px rgb(var(--shadow-rgb) / 0.16)", "purpose": "Tarjetas, filas y campos de cristal. --shadow-rgb: 96 60 20 en claro, 6 10 8 en oscuro." },
+      { "name": "sheet", "value": "inset 0 1px 0 var(--edge), 0 -24px 60px -20px rgb(var(--shadow-rgb) / 0.5)", "purpose": "Hoja inferior, proyecta hacia arriba." },
+      { "name": "dock", "value": "inset 0 1px 0 var(--edge), 0 22px 44px -16px rgb(var(--shadow-rgb) / 0.55), 0 2px 8px -3px rgb(var(--shadow-rgb) / 0.2)", "purpose": "Barra de navegación flotante." },
+      { "name": "btn-liquid", "value": "inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 -10px 18px -8px rgb(0 0 0 / 0.25), 0 16px 28px -14px rgb(var(--nopal-rgb) / 0.9)", "purpose": "Botón verde de acción principal." },
+      { "name": "btn-cafe", "value": "inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 -10px 16px -8px rgb(0 0 0 / 0.3), 0 14px 24px -14px rgb(var(--cafe-rgb) / 0.9)", "purpose": "Botón café secundario de peso." },
+      { "name": "btn-maiz", "value": "inset 0 1px 0 rgb(255 255 255 / 0.7), 0 10px 20px -10px rgb(var(--maiz-rgb) / 0.8)", "purpose": "Botón amarillo de destello." },
+      { "name": "icono-suelto", "value": "drop-shadow(0 3px 4px rgb(var(--shadow-rgb) / 0.32))", "purpose": "Sombra de iconos y emojis sin contenedor (.perla)." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Curva base: botones (220 ms), sombras (260 ms), números que ruedan (0.9 s), onda (650 ms)." },
+      { "name": "squish", "value": "scale(1.025, 0.94) en 90 ms al presionar .btn", "purpose": "La gota del botón se aplasta y regresa." },
+      { "name": "onda-liquida", "value": "rip 650 ms: radial blanco que nace en el punto de toque y crece a escala 2.4", "purpose": "Onda en cualquier .btn (LiquidEffects, un solo listener)." },
+      { "name": "sheet-spring", "value": "spring stiffness 380, damping 26, mass 0.9", "purpose": "Entrada y salida de la hoja inferior." },
+      { "name": "dock-gota-spring", "value": "spring stiffness 380, damping 26, mass 0.8 (layoutId dock-gota)", "purpose": "La gota verde viaja entre destinos del dock; el icono activo salta." },
+      { "name": "numero-rueda", "value": "animate 0.9 s ease-out-expo; cifra del stepper sube o baja 18 px con blur 3 px en 220 ms", "purpose": "AnimatedNumber y QtyStepper." },
+      { "name": "orbe-nivel", "value": "spring stiffness 60, damping 16; olas wave-a 7 s y wave-b 11 s lineales", "purpose": "Nivel y olas del LiquidGauge." },
+      { "name": "rafaga-cuadro", "value": "16 gotas, 1.1 s, radio 110 px, colores nopal, maíz, café, nopal-light", "purpose": "Burst al celebrar Cuadró." },
+      { "name": "aurora-drift", "value": "drift 28 a 40 s ease-in-out alternate, 4 manchas", "purpose": "Movimiento lento de la luz de fondo." },
+      { "name": "brillo-especular", "value": "sheen 9 s; radial que sigue al dedo (--sx, --sy)", "purpose": "Brillo del cristal." },
+      { "name": "entrada-stagger", "value": "hijos cada 0.07 s: opacity, y 16 px y blur 6 px, spring 240/24", "purpose": "Stagger y EmptyState." },
+      { "name": "cambio-de-tema", "value": "View Transitions 450 ms ease-out-expo", "purpose": "Alternar claro u oscuro." },
+      { "name": "reduced-motion", "value": "animaciones y transiciones a 0.01 ms; componentes de motion usan useReducedMotion", "purpose": "Respeta menos movimiento." }
+    ],
+    "breakpoints": [
+      { "name": "content-max", "value": "36rem (max-w-xl)" },
+      { "name": "dock-max", "value": "24rem (max-w-sm)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón verde",
+      "kind": "button",
+      "refersTo": "button-liquid",
+      "description": "Acción principal de pantalla u hoja.",
+      "html": "<button class=\"ds-btn-liquid\">Hacer cuenta del día</button>",
+      "css": ".ds-btn-liquid { position: relative; overflow: hidden; isolation: isolate; min-height: 56px; padding: 0 24px; border: 0; border-radius: 16px; color: #ffffff; background: linear-gradient(180deg, color-mix(in oklab, #2a8452 70%, white) 0%, #2a8452 48%, #1b6340 100%); font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 -10px 18px -8px rgb(0 0 0 / 0.25), 0 16px 28px -14px rgb(42 132 82 / 0.9); transition: transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 260ms cubic-bezier(0.16,1,0.3,1), filter 200ms; cursor: pointer; } .ds-btn-liquid::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: linear-gradient(180deg, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0) 52%); pointer-events: none; } .ds-btn-liquid:hover { filter: saturate(1.1) brightness(1.04); } .ds-btn-liquid:active { transform: scale(1.025, 0.94); transition-duration: 90ms; } .ds-btn-liquid:focus-visible { outline: 3px solid #2a8452; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón café",
+      "kind": "button",
+      "refersTo": "button-cafe",
+      "description": "Acción secundaria de peso.",
+      "html": "<button class=\"ds-btn-cafe\">Ver detalle</button>",
+      "css": ".ds-btn-cafe { min-height: 56px; padding: 0 24px; border: 0; border-radius: 16px; color: #fff3e0; background: linear-gradient(180deg, color-mix(in oklab, #7a4e2d 75%, white) 0%, #7a4e2d 50%, #4a2f1b 100%); font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 -10px 16px -8px rgb(0 0 0 / 0.3), 0 14px 24px -14px rgb(122 78 45 / 0.9); transition: transform 220ms cubic-bezier(0.16,1,0.3,1); cursor: pointer; } .ds-btn-cafe:active { transform: scale(1.025, 0.94); transition-duration: 90ms; } .ds-btn-cafe:focus-visible { outline: 3px solid #2a8452; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tarjeta de cristal",
+      "kind": "card",
+      "refersTo": "glass-card",
+      "description": "Contenedor estándar de cualquier bloque, con rim y brillo especular.",
+      "html": "<section class=\"ds-glass\"><p class=\"ds-glass-title\">Hoy</p><p class=\"ds-glass-note\">Falta hacer el corte</p></section>",
+      "css": ".ds-glass { position: relative; isolation: isolate; padding: 20px; border-radius: 16px; background: linear-gradient(160deg, rgb(255 255 255 / 0.66), rgb(255 255 255 / 0.36)); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95), 0 14px 34px -16px rgb(96 60 20 / 0.42), 0 2px 8px -3px rgb(96 60 20 / 0.16); color: #3a2616; } .ds-glass::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; pointer-events: none; background: linear-gradient(140deg, rgb(255 255 255 / 0.95), transparent 38%, rgb(42 132 82 / 0.5) 78%, rgb(255 255 255 / 0.95)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); opacity: 0.9; } .ds-glass::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: radial-gradient(220px 160px at 18% -10%, rgb(255 255 255 / 0.55), transparent 70%); opacity: 0.55; } .ds-glass-title { margin: 0; font-weight: 600; } .ds-glass-note { margin: 4px 0 0; color: #6b5440; }"
+    },
+    {
+      "name": "Campo de dinero",
+      "kind": "input",
+      "refersTo": "money-field",
+      "description": "Tarjeta de cristal que muestra la cifra y abre el teclado numérico.",
+      "html": "<button class=\"ds-money\"><span><span class=\"ds-money-label\">Dinero en caja</span><span class=\"ds-money-hint\">Cuenta los billetes</span></span><span class=\"ds-money-value\">$1,250</span></button>",
+      "css": ".ds-money { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 80px; padding: 12px 20px; border: 0; border-radius: 16px; text-align: left; color: #3a2616; background: linear-gradient(160deg, rgb(255 255 255 / 0.66), rgb(255 255 255 / 0.36)); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95), 0 14px 34px -16px rgb(96 60 20 / 0.42); cursor: pointer; transition: transform 160ms cubic-bezier(0.16,1,0.3,1); } .ds-money:active { transform: scale(0.99); } .ds-money:focus-visible { outline: 3px solid #2a8452; outline-offset: 3px; } .ds-money-label { display: block; font-weight: 600; } .ds-money-hint { display: block; font-size: 0.875rem; color: #6b5440; } .ds-money-value { font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-variant-numeric: tabular-nums lining-nums; font-size: 1.875rem; font-weight: 800; letter-spacing: -0.02em; }"
+    },
+    {
+      "name": "Dock con gota",
+      "kind": "nav",
+      "refersTo": "dock",
+      "description": "Barra flotante de cristal con 3 destinos y gota verde activa.",
+      "html": "<nav class=\"ds-dock\"><a class=\"ds-dock-item is-active\" href=\"#\">Inicio</a><a class=\"ds-dock-item\" href=\"#\">Días</a><a class=\"ds-dock-item\" href=\"#\">Productos</a></nav>",
+      "css": ".ds-dock { display: flex; width: 100%; max-width: 24rem; padding: 6px; border-radius: 25.6px; background: linear-gradient(160deg, rgb(255 255 255 / 0.66), rgb(255 255 255 / 0.36)); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95), 0 22px 44px -16px rgb(96 60 20 / 0.55), 0 2px 8px -3px rgb(96 60 20 / 0.2); } .ds-dock-item { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 64px; border-radius: 19.2px; font-size: 0.875rem; font-weight: 700; color: #6b5440; text-decoration: none; } .ds-dock-item.is-active { color: #ffffff; background: linear-gradient(180deg, color-mix(in oklab, #2a8452 70%, white) 0%, #2a8452 48%, #1b6340 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 -10px 18px -8px rgb(0 0 0 / 0.25), 0 16px 28px -14px rgb(42 132 82 / 0.9); } .ds-dock-item:focus-visible { outline: 3px solid #2a8452; outline-offset: 3px; }"
+    },
+    {
+      "name": "Hoja de cristal",
+      "kind": "custom",
+      "refersTo": "glass-sheet",
+      "description": "Hoja inferior de firma para capturas y confirmaciones.",
+      "html": "<section class=\"ds-sheet\"><div class=\"ds-sheet-handle\"></div><h2 class=\"ds-sheet-title\">Llegó harina</h2><p class=\"ds-sheet-body\">Contenido de la captura.</p></section>",
+      "css": ".ds-sheet { width: 100%; max-width: 36rem; padding: 0 24px 24px; border-radius: 28px 28px 0 0; background: linear-gradient(180deg, rgb(255 255 255 / 0.84), rgb(255 255 255 / 0.62)); -webkit-backdrop-filter: blur(30px) saturate(1.9); backdrop-filter: blur(30px) saturate(1.9); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95), 0 -24px 60px -20px rgb(96 60 20 / 0.5); color: #3a2616; } .ds-sheet-handle { width: 44px; height: 6px; margin: 12px auto 0; border-radius: 9999px; background: rgb(58 38 22 / 0.2); } .ds-sheet-title { margin: 12px 0 8px; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-size: 1.5rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; } .ds-sheet-body { margin: 0; color: #6b5440; }"
+    },
+    {
+      "name": "Estado del cuadre",
+      "kind": "chip",
+      "refersTo": "status-ok",
+      "description": "Insignia con icono y palabra: Cuadró, Faltó o Sobró.",
+      "html": "<span class=\"ds-status ds-ok\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm49.5 85.8-58.67 56a8 8 0 0 1-11.17-.11l-29.33-28a8 8 0 1 1 11-11.63l23.8 22.7 53.13-50.7a8 8 0 1 1 11 11.74Z\"/></svg>Cuadró</span>",
+      "css": ".ds-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem; font-weight: 700; } .ds-ok { color: #16703c; background: rgb(42 132 82 / 0.16); } .ds-bad { color: #c8321a; background: rgb(200 50 26 / 0.14); } .ds-warn { color: #7d5200; background: rgb(242 181 24 / 0.22); }"
+    },
+    {
+      "name": "Cantidad con iconos sueltos",
+      "kind": "custom",
+      "refersTo": "stepper-button",
+      "description": "Menos y más como iconos sin fondo (el más en verde) con la cifra al centro.",
+      "html": "<div class=\"ds-stepper\"><button class=\"ds-step-minus\" aria-label=\"Quitar\"><svg width=\"32\" height=\"32\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M224 128a12 12 0 0 1-12 12H44a12 12 0 0 1 0-24h168a12 12 0 0 1 12 12Z\"/></svg></button><output class=\"ds-step-value\">3</output><button class=\"ds-step-plus\" aria-label=\"Agregar\"><svg width=\"32\" height=\"32\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M228 128a12 12 0 0 1-12 12H140v76a12 12 0 0 1-24 0v-76H40a12 12 0 0 1 0-24h76V40a12 12 0 0 1 24 0v76h76a12 12 0 0 1 12 12Z\"/></svg></button></div>",
+      "css": ".ds-stepper { display: flex; align-items: center; gap: 4px; } .ds-step-minus, .ds-step-plus { display: grid; place-items: center; width: 56px; height: 56px; border: 0; border-radius: 9999px; background: transparent; cursor: pointer; transition: transform 160ms cubic-bezier(0.16,1,0.3,1), background 160ms; } .ds-step-minus { color: #6b5440; } .ds-step-plus { color: #2a8452; } .ds-step-minus:hover, .ds-step-plus:hover { background: rgb(255 255 255 / 0.28); } .ds-step-minus:active, .ds-step-plus:active { transform: scale(0.86); } .ds-step-minus:focus-visible, .ds-step-plus:focus-visible { outline: 3px solid #2a8452; outline-offset: 3px; } .ds-step-plus svg { filter: drop-shadow(0 3px 4px rgb(42 132 82 / 0.45)); } .ds-step-value { min-width: 56px; text-align: center; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-variant-numeric: tabular-nums lining-nums; font-size: 1.875rem; font-weight: 800; color: #3a2616; }"
+    },
+    {
+      "name": "Orbe líquido",
+      "kind": "custom",
+      "refersTo": "glass-card",
+      "description": "Medidor circular que se llena con olas (meta del mes).",
+      "html": "<svg class=\"ds-orbe\" viewBox=\"0 0 100 100\" width=\"96\" height=\"96\" role=\"img\" aria-label=\"65%\"><defs><clipPath id=\"ds-orbe-c\"><circle cx=\"50\" cy=\"50\" r=\"46\"/></clipPath><linearGradient id=\"ds-orbe-g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#7bd29c\"/><stop offset=\"1\" stop-color=\"#1b6340\"/></linearGradient><radialGradient id=\"ds-orbe-s\" cx=\"30%\" cy=\"22%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\"0.7\"/><stop offset=\"1\" stop-color=\"#fff\" stop-opacity=\"0\"/></radialGradient></defs><circle cx=\"50\" cy=\"50\" r=\"46\" fill=\"rgb(255 255 255 / 0.22)\"/><g clip-path=\"url(#ds-orbe-c)\"><g transform=\"translate(0 41)\"><path d=\"M0 6 Q 12.5 0 25 6 T 50 6 T 75 6 T 100 6 T 125 6 T 150 6 T 175 6 T 200 6 V 120 H 0 Z\" fill=\"#f2b518\" opacity=\"0.7\" transform=\"translate(0 -3)\"/><path d=\"M0 6 Q 12.5 0 25 6 T 50 6 T 75 6 T 100 6 T 125 6 T 150 6 T 175 6 T 200 6 V 120 H 0 Z\" fill=\"url(#ds-orbe-g)\"/></g><circle cx=\"50\" cy=\"50\" r=\"46\" fill=\"url(#ds-orbe-s)\"/></g><circle cx=\"50\" cy=\"50\" r=\"46\" fill=\"none\" stroke=\"rgb(255 255 255 / 0.95)\" stroke-width=\"2\"/></svg>",
+      "css": ".ds-orbe { display: block; flex-shrink: 0; filter: drop-shadow(0 6px 10px rgb(96 60 20 / 0.25)); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Maíz Líquido",
+    "overview": "Una app de mostrador usada de pie, al cierre, con prisa y en teléfono. El sistema es cristal líquido sobre una aurora: cuatro manchas de luz (verde, maíz, café y menta) derivan despacio detrás de hojas de cristal translúcido, y encima van cifras muy grandes. Existe en dos temas que comparten la misma estructura: claro (masa cremosa) y oscuro (grafito verdoso y café, nunca negro puro). Cada pantalla plantea una sola pregunta y deja claro qué sigue.\n\nLa paleta tiene roles fijos: el verde es la acción y el \"cuadró\", el café es la estructura (texto, botones secundarios, scroll) y el amarillo es solo un destello (selección, avisos, el \"+\" opcional, la ola trasera del orbe). El amarillo nunca domina una pantalla. El cristal, la aurora y el orbe líquido son la identidad aprobada por el usuario; los iconos y emojis van sueltos, sin cuadro ni círculo contenedor (decisión del usuario).\n\nLa densidad es baja y táctil: objetivos de 56 px o más, texto base de 17 px, una acción verde principal por pantalla. El estado del cuadre se lee con tres tonos (nopal cuadró, chile faltó, maíz oscuro sobró) siempre con icono y palabra. Toda interacción responde con microanimaciones que se apagan con \"menos movimiento\".",
+    "keyCharacteristics": [
+      "Dos temas (claro y oscuro) con las mismas variables semánticas --c-*; script en el <head> que elige tema antes de pintar.",
+      "Aurora de 4 manchas como fondo; el cristal la refracta.",
+      "Cristal líquido: blur con saturación, relleno blanco translúcido, rim iridiscente de 1 px y brillo especular que sigue al dedo.",
+      "Refracción SVG real solo en Chromium (clase lq); Safari y Firefox usan el blur normal.",
+      "Orbe líquido (LiquidGauge) para la meta del mes.",
+      "Cifras enormes, tabulares, que ruedan al cambiar.",
+      "Iconos Phosphor (react-icons/pi) y emojis de producto, sueltos con sombra suave.",
+      "Hojas inferiores como gesto de firma para capturas y confirmaciones."
+    ],
+    "rules": [
+      { "name": "The Role Rule", "body": "Verde es acción y éxito, café es estructura, amarillo es destello. El amarillo nunca es el color dominante ni el botón principal.", "section": "colors" },
+      { "name": "The Never-Black Rule", "body": "Ni el texto ni el fondo son negro puro: el claro usa café, el oscuro usa grafito verdoso con café. Los scrims son café oscuro (42%) o grafito (55%).", "section": "colors" },
+      { "name": "The Icon-Plus-Word Rule", "body": "Cuadró, faltó y sobró jamás se expresan solo con color: siempre icono y palabra.", "section": "colors" },
+      { "name": "The One Green Rule", "body": "Una sola acción en verde por pantalla u hoja; lo demás es cristal o café.", "section": "colors" },
+      { "name": "The Tabular Figures Rule", "body": "Toda cifra usa .num (display, tabular-nums, lining-nums); las que cambian usan AnimatedNumber para rodar sin saltar.", "section": "typography" },
+      { "name": "The Balanced Headings Rule", "body": "h1 a h3 con text-wrap: balance, párrafos con pretty, espaciado de letras -0.02em.", "section": "typography" },
+      { "name": "The Tinted Shadow Rule", "body": "Toda sombra se tiñe con --shadow-rgb del tema o con el color de la acción; no hay sombras duras ni grises neutras.", "section": "elevation" },
+      { "name": "The Glass-Needs-Light Rule", "body": "El cristal solo funciona sobre la aurora; no se apila cristal sobre cristal sin necesidad y solo una superficie glass-liquid por pantalla.", "section": "elevation" },
+      { "name": "The Loose Icon Rule", "body": "Iconos y emojis (ProductoIcon, Phosphor) van sueltos sobre el cristal con sombra suave, sin cuadro, círculo ni fondo contenedor. Las excepciones aprobadas son la gota verde del dock y el orbe del medidor.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do usar .glass (o Glass) como contenedor de todo bloque y abrir capturas en Sheet.",
+      "Do asignar colores por rol: verde para acción y éxito, café para estructura, amarillo para destello.",
+      "Do colocar iconos y emojis sueltos, con sombra suave, sin cuadro ni círculo.",
+      "Do leer colores de las variables --c-* para que el tema oscuro funcione solo.",
+      "Do mantener objetivos táctiles de 56 px o más en acciones de captura.",
+      "Do mostrar toda cifra con .num y animar las que cambian con AnimatedNumber.",
+      "Do acompañar cada tono de estado con icono y palabra.",
+      "Do respetar prefers-reduced-motion (la hoja de CSS reduce animaciones a 0.01 ms y los componentes de motion lo consultan)."
+    ],
+    "donts": [
+      "Don't usar negro puro en texto, fondo o sombra del tema claro; el oscuro es grafito verdoso con café.",
+      "Don't poner iconos o emojis dentro de cuadros o círculos contenedores.",
+      "Don't hacer del amarillo el color dominante ni el botón principal.",
+      "Don't poner más de una acción verde por pantalla.",
+      "Don't expresar cuadró, faltó o sobró solo con color.",
+      "Don't esconder navegación en menús; el dock tiene 3 destinos fijos.",
+      "Don't mezclar otra librería de iconos con Phosphor.",
+      "Don't depender de la refracción SVG: es mejora solo para Chromium y el diseño debe verse completo con blur normal."
+    ]
+  }
+}

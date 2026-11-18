@@ -1,10 +1,20 @@
-import { prisma } from '@/lib/prisma';
+import { cerrarSesionAdmin, esAdmin, iniciarSesionAdmin, pinActual } from '@/lib/adminAuth';
 
+// POST { pin } → si es correcto, crea la sesión (cookie firmada) y responde { ok: true }
 export async function POST(req) {
   const { pin } = await req.json();
+  const ok = typeof pin === 'string' && pin === (await pinActual());
+  if (ok) await iniciarSesionAdmin();
+  return Response.json({ ok });
+}
 
-  const config = await prisma.config.findUnique({ where: { key: 'admin_pin' } });
-  const pinCorrecto = config?.value ?? process.env.ADMIN_PIN ?? '1234';
+// GET → ¿hay sesión de admin vigente? (la pantalla lo usa para no confiar solo en el navegador)
+export async function GET() {
+  return Response.json({ admin: await esAdmin() });
+}
 
-  return Response.json({ ok: pin === pinCorrecto });
+// DELETE → cerrar sesión de admin
+export async function DELETE() {
+  await cerrarSesionAdmin();
+  return Response.json({ ok: true });
 }

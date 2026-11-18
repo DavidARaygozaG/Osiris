@@ -1,3 +1,4 @@
+import { esAdmin } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -18,6 +19,7 @@ export async function GET() {
 }
 
 export async function POST(req) {
+  if (!(await esAdmin())) return Response.json({ error: 'no_autorizado' }, { status: 401 });
   const { nombre, productoId, parentId } = await req.json();
   const prov = await prisma.proveedor.create({
     data: {
